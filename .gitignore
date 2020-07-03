@@ -25,3 +25,4 @@ secrets.agent
 *.tfvars
 .terraform/
 remotestate.tf
+lambda.zip

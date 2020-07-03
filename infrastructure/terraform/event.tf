@@ -4,6 +4,7 @@ resource "aws_cloudwatch_event_rule" "daily_event" {
 }
 
 resource "aws_cloudwatch_event_target" "lambda" {
-    rule = aws_cloudwatch_event_rule.daily_event.name
-    target_id = "SendToLinuxChallengeLambda"
+  rule      = aws_cloudwatch_event_rule.daily_event.name
+  target_id = "SendToLinuxChallengeLambda"
+  arn       = aws_lambda_function.cronjob.arn
 }
