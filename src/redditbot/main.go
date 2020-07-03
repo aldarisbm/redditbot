@@ -25,12 +25,12 @@ func main() {
 	// bot, err := reddit.NewBot(cfg)
 	path, err := os.Getwd()
 	if err != nil {
-		log.Fatalf("ERROR: Gettin WD %s", err)
+		log.Fatalf("ERROR: Gettin WD -- %s", err)
 	}
 
 	bot, err := reddit.NewBotFromAgentFile(fmt.Sprintf("%s/secrets.agent", path), 0)
 	if err != nil {
-		log.Fatalf("ERROR: Retrieving Agent File: %s", err)
+		log.Fatalf("ERROR: Retrieving Agent File -- %s", err)
 	}
 
 	submission, err := bot.GetPostSelf("LUC_team", "TEST GOLANG POST", "posting from bot")
