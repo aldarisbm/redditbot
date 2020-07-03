@@ -9,10 +9,6 @@ import (
 )
 
 func main() {
-	path, err := os.Getwd()
-	if err != nil {
-		log.Fatalf("ERROR: Gettin WD %s", err)
-	}
 
 	// TODO: Implementation should change here and we should retrieve our secrets from secretsmanager
 
@@ -27,6 +23,10 @@ func main() {
 	//   }
 
 	// bot, err := reddit.NewBot(cfg)
+	path, err := os.Getwd()
+	if err != nil {
+		log.Fatalf("ERROR: Gettin WD %s", err)
+	}
 
 	bot, err := reddit.NewBotFromAgentFile(fmt.Sprintf("%s/secrets.agent", path), 0)
 	if err != nil {
