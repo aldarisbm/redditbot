@@ -1,3 +1,7 @@
+bin/
+pkg/
+src/github.com/*
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
@@ -21,7 +25,3 @@ secrets.agent
 *.tfvars
 .terraform/
 remotestate.tf
-
-pkg/
-
-src/github.com/
