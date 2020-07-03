@@ -21,3 +21,5 @@ secrets.agent
 *.tfvars
 .terraform/
 remotestate.tf
+
+pkg/
