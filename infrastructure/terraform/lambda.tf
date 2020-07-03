@@ -13,15 +13,15 @@ resource "aws_iam_role" "iam_for_lambda" {
 }
 
 data "aws_iam_policy_document" "policy_document" {
-    statement {
-        sid = "AllowAssumeRole"
-        actions = ["sts:AssumeRole"]
-        effect = "Allow"
-        principals {
-            type = "Service"
-            identifiers = ["lambda.amazonaws.com"]
-        }
+  statement {
+    sid     = "AllowAssumeRole"
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
     }
+  }
 }
 
 resource "aws_lambda_function" "cronjob" {
@@ -34,7 +34,8 @@ resource "aws_lambda_function" "cronjob" {
 
   environment {
     variables = {
-      SECRETS_MANAGER_ARN = aws_secretsmanager_secret.secret.arn
+      SECRET_NAME = aws_secretsmanager_secret.secret.name
+      REGION      = var.region
     }
   }
 }
