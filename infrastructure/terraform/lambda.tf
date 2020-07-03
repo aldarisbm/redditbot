@@ -36,6 +36,7 @@ resource "aws_lambda_function" "cronjob" {
     variables = {
       SECRET_NAME = aws_secretsmanager_secret.secret.name
       REGION      = var.region
+      ENV         = "PROD"
     }
   }
 }

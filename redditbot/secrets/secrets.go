@@ -57,7 +57,6 @@ func GetSecret() (Secret, error) {
 	}
 
 	var val []byte = []byte(*result.SecretString)
-	fmt.Printf("byte: %v", val)
 	err = json.Unmarshal(val, &secret)
 	if err != nil {
 		return secret, err
