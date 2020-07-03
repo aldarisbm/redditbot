@@ -3,26 +3,25 @@ resource "aws_lambda_permission" "allow_cloudwatch" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.cronjob.function_name
   principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.daily_event.arn
 }
 
 resource "aws_iam_role" "iam_for_lambda" {
   name = "iam_for_lambda"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Effect": "Allow",
-      "Sid": "AllowAssumeRolegl man"
-    }
-  ]
+  assume_role_policy = data.aws_iam_policy_document.policy_document.json
 }
-EOF
+
+data "aws_iam_policy_document" "policy_document" {
+    statement {
+        sid = "AllowAssumeRole"
+        actions = ["sts:AssumeRole"]
+        effect = "Allow"
+        principals {
+            type = "Service"
+            identifiers = ["lambda.amazonaws.com"]
+        }
+    }
 }
 
 resource "aws_lambda_function" "cronjob" {
@@ -35,7 +34,7 @@ resource "aws_lambda_function" "cronjob" {
 
   environment {
     variables = {
-      SECRETS_MANAGER_ARN = aws_secretsmanager_secret.arn
+      SECRETS_MANAGER_ARN = aws_secretsmanager_secret.secret.arn
     }
   }
 }

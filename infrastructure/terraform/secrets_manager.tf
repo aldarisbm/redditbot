@@ -1,3 +1,3 @@
 resource "aws_secretsmanager_secret" "secret" {
-  name = "cronjob_secrets"
+  name = "cronjob"
 }
