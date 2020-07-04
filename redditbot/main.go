@@ -27,7 +27,8 @@ func main() {
 
 func getBot(env string) (bot reddit.Bot, err error) {
 	// If DEV we retrieve from agent file, if PROD we retrieve from SecretsManager
-	if env == "DEV" {
+	switch env {
+	case "DEV":
 		path, err := os.Getwd()
 		if err != nil {
 			log.Fatalf("ERROR: Gettin WD - %s", err)
@@ -38,8 +39,7 @@ func getBot(env string) (bot reddit.Bot, err error) {
 			log.Fatalf("FATAL: Retrieving Agent File - %s", err)
 			return bot, err
 		}
-	}
-	if env == "PROD" {
+	case "PROD":
 		secret, err := secrets.GetSecret()
 		if err != nil {
 			log.Fatalf("FATAL: Error while retrieving secret - %s", err)
@@ -60,6 +60,8 @@ func getBot(env string) (bot reddit.Bot, err error) {
 			log.Fatalf("FATAL: Error while creating bot from cfg - %s", err)
 			return bot, err
 		}
+	default:
+		return bot, fmt.Errorf("Only DEV or PROD accepted for $ENV")
 	}
 	return bot, nil
 }
