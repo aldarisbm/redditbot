@@ -1,4 +1,4 @@
-module github.com/aldarisbm/redditbot
+module github.com/aldarisbm/redditbot/redditbot
 
 go 1.14
 
