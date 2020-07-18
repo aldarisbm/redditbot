@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/aldarisbm/redditbot/redditbot/secrets"
 	"github.com/turnage/graw/reddit"
@@ -20,11 +21,17 @@ func main() {
 	if err != nil {
 		log.Fatalf("FATAL: Error while getting bot - %s", err)
 	}
+
 	day := getDay()
+	if day == -1 {
+		log.Fatal("FATAL: NOOP")
+	}
+
 	text, err := getText(day)
 	if err != nil {
 		log.Fatalf("FATAL: Error while getting text - %s", err)
 	}
+
 	submission, err := bot.GetPostSelf("LUC_team", "TEST MARKDOWN POST", text)
 	if err != nil {
 		log.Fatalf("FATAL: Error while submitting the post - %v", err)
@@ -90,5 +97,41 @@ func getText(day int) (string, error) {
 }
 
 func getDay() int {
-	return 2
+	// dayInt := time.Now().Weekday()
+	// date := time.Now().Day()
+	firstMondayOfMonth := getFirstMondayOfMonth()
+
+	switch dayInt {
+	case time.Monday:
+		return -1
+	case time.Tuesday:
+		return -1
+	case time.Wednesday:
+		return -1
+	case time.Thursday:
+		return -1
+	case time.Friday:
+		return -1
+	default:
+		return -1
+	}
+}
+
+func getFirstMondayOfMonth() (firstMonday int) {
+	now := time.Now()
+	year, month, hour, minute, second, nanoSecond, location :=
+		now.Year(),
+		now.Month(),
+		now.Hour(),
+		now.Minute(),
+		now.Second(),
+		now.Nanosecond(),
+		now.Location()
+
+	for day := 1; day < 8; day++ {
+		if time.Date(year, month, day, hour, minute, second, nanoSecond, location).Weekday() == time.Monday {
+			firstMonday = day
+		}
+	}
+	return firstMonday
 }
