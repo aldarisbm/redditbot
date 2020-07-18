@@ -32,7 +32,7 @@ func main() {
 		log.Fatalf("FATAL: Error while getting text - %s", err)
 	}
 
-	submission, err := bot.GetPostSelf("LUC_team", "TEST MARKDOWN POST", textBody)
+	submission, err := bot.GetPostSelf("luc_team", "TEST MARKDOWN POST", textBody)
 	if err != nil {
 		log.Fatalf("FATAL: Error while submitting the post - %v", err)
 	}
