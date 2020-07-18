@@ -23,7 +23,7 @@ func main() {
 	}
 
 	day := getDay()
-	if day == -1 {
+	if day < 1 {
 		log.Fatal("FATAL: NOOP")
 	}
 
@@ -97,9 +97,13 @@ func getText(day int) (string, error) {
 }
 
 func getDay() int {
-	// dayInt := time.Now().Weekday()
-	// date := time.Now().Day()
+	dayInt := time.Now().Weekday()
+	todaysDate := time.Now().Day()
 	firstMondayOfMonth := getFirstMondayOfMonth()
+
+	if todaysDate < firstMondayOfMonth {
+		return -1
+	}
 
 	switch dayInt {
 	case time.Monday:
