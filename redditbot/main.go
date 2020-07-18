@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("FATAL: Error while getting bot - %s", err)
 	}
 
-	postDay := getPostDay()
+	postDay := getPostDay(time.Now())
 	if postDay < 0 {
 		log.Fatal("FATAL: NOOP")
 	}
@@ -96,10 +96,10 @@ func getTextBody(day int) (string, error) {
 	return string(body), nil
 }
 
-func getPostDay() int {
-	dayInt := time.Now().Weekday()
-	todaysDate := time.Now().Day()
-	firstMondayOfMonth := getFirstMondayOfMonth()
+func getPostDay(now time.Time) int {
+	dayInt := now.Weekday()
+	todaysDate := now.Day()
+	firstMondayOfMonth := getFirstMondayOfMonth(now)
 
 	if todaysDate < firstMondayOfMonth {
 		return -1
@@ -121,8 +121,7 @@ func getPostDay() int {
 	}
 }
 
-func getFirstMondayOfMonth() (firstMonday int) {
-	now := time.Now()
+func getFirstMondayOfMonth(now time.Time) (firstMonday int) {
 	year, month, hour, minute, second, nanoSecond, location :=
 		now.Year(),
 		now.Month(),
