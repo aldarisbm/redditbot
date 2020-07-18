@@ -2,12 +2,16 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/aldarisbm/redditbot/redditbot/secrets"
 	"github.com/turnage/graw/reddit"
 )
+
+var githubURL = "https://raw.githubusercontent.com/snori74/linuxupskillchallenge/master"
 
 func main() {
 	env := os.Getenv("ENV")
@@ -16,10 +20,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("FATAL: Error while getting bot - %s", err)
 	}
-
-	submission, err := bot.GetPostSelf("LUC_team", "TEST GOLANG POST", "posting from bot")
+	day := getDay()
+	text, err := getText(day)
 	if err != nil {
-		log.Fatalf("FATAL: Error while submitting the post - %s", err)
+		log.Fatalf("FATAL: Error while getting text - %s", err)
+	}
+	submission, err := bot.GetPostSelf("LUC_team", "TEST MARKDOWN POST", text)
+	if err != nil {
+		log.Fatalf("FATAL: Error while submitting the post - %v", err)
 	}
 
 	fmt.Printf("%v", submission)
@@ -34,7 +42,7 @@ func getBot(env string) (bot reddit.Bot, err error) {
 			log.Fatalf("ERROR: Gettin WD - %s", err)
 			return bot, err
 		}
-		bot, err = reddit.NewBotFromAgentFile(fmt.Sprintf("%s/redditbot/secrets.agent", path), 0)
+		bot, err = reddit.NewBotFromAgentFile(fmt.Sprintf("%s/secrets.agent", path), 0)
 		if err != nil {
 			log.Fatalf("FATAL: Retrieving Agent File - %s", err)
 			return bot, err
@@ -64,4 +72,23 @@ func getBot(env string) (bot reddit.Bot, err error) {
 		return bot, fmt.Errorf("Only DEV or PROD accepted for $ENV")
 	}
 	return bot, nil
+}
+
+func getText(day int) (string, error) {
+	resp, err := http.Get(fmt.Sprintf("%s/%d.md", githubURL, day))
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	return string(body), nil
+}
+
+func getDay() int {
+	return 2
 }
