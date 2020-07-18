@@ -22,17 +22,17 @@ func main() {
 		log.Fatalf("FATAL: Error while getting bot - %s", err)
 	}
 
-	day := getDay()
-	if day < 1 {
+	postDay := getPostDay()
+	if postDay < 0 {
 		log.Fatal("FATAL: NOOP")
 	}
 
-	text, err := getText(day)
+	textBody, err := getTextBody(postDay)
 	if err != nil {
 		log.Fatalf("FATAL: Error while getting text - %s", err)
 	}
 
-	submission, err := bot.GetPostSelf("LUC_team", "TEST MARKDOWN POST", text)
+	submission, err := bot.GetPostSelf("LUC_team", "TEST MARKDOWN POST", textBody)
 	if err != nil {
 		log.Fatalf("FATAL: Error while submitting the post - %v", err)
 	}
@@ -81,7 +81,7 @@ func getBot(env string) (bot reddit.Bot, err error) {
 	return bot, nil
 }
 
-func getText(day int) (string, error) {
+func getTextBody(day int) (string, error) {
 	resp, err := http.Get(fmt.Sprintf("%s/%d.md", githubURL, day))
 	if err != nil {
 		return "", err
@@ -96,7 +96,7 @@ func getText(day int) (string, error) {
 	return string(body), nil
 }
 
-func getDay() int {
+func getPostDay() int {
 	dayInt := time.Now().Weekday()
 	todaysDate := time.Now().Day()
 	firstMondayOfMonth := getFirstMondayOfMonth()
