@@ -99,7 +99,7 @@ func getTextBody(day int) (string, error) {
 func getPostDay(now time.Time) int {
 	dayInt := now.Weekday()
 	todaysDate := now.Day()
-	firstMondayOfMonth := getFirstMondayOfMonth(now)
+	firstMondayOfMonth := getFirstMondayOfMonth(now, time.Now().Month())
 
 	if todaysDate < firstMondayOfMonth {
 		return -1
