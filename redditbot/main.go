@@ -117,14 +117,14 @@ func getPostDay(now time.Time) int {
 	case time.Friday:
 		return -1
 	default:
-		return -1
+		return 1
 	}
 }
 
-func getFirstMondayOfMonth(now time.Time) (firstMonday int) {
+func getFirstMondayOfMonth(now time.Time, month time.Month) (firstMonday int) {
 	year, month, hour, minute, second, nanoSecond, location :=
 		now.Year(),
-		now.Month(),
+		month,
 		now.Hour(),
 		now.Minute(),
 		now.Second(),
