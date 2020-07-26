@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/aldarisbm/redditbot/redditbot/secrets"
-	"github.com/turnage/graw/reddit"
+	"github.com/aldarisbm/graw/reddit"
 )
 
 var githubURL = "https://raw.githubusercontent.com/snori74/linuxupskillchallenge/master"
