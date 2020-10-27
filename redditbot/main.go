@@ -8,8 +8,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/aldarisbm/redditbot/redditbot/secrets"
 	"github.com/aldarisbm/graw/reddit"
+	"github.com/aldarisbm/redditbot/redditbot/secrets"
 )
 
 var githubURL = "https://raw.githubusercontent.com/snori74/linuxupskillchallenge/master"
